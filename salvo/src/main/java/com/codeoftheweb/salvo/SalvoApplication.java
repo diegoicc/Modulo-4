@@ -42,8 +42,20 @@ public class SalvoApplication {
 				gameRepository.save(G3);
 
 				GamePlayer GP1 = new GamePlayer(date,G1,P1);
+				GamePlayer GP2 = new GamePlayer(date,G1,P2);
+
+				GamePlayer GP3 = new GamePlayer(date,G2,P1);
+				GamePlayer GP4 = new GamePlayer(date,G2,P2);
+
+				GamePlayer GP5 = new GamePlayer(date,G3,P2);
+				GamePlayer GP6 = new GamePlayer(date,G3,P3);
 
 				gameplayerRepository.save(GP1);
+				gameplayerRepository.save(GP2);
+				gameplayerRepository.save(GP3);
+				gameplayerRepository.save(GP4);
+				gameplayerRepository.save(GP5);
+				gameplayerRepository.save(GP6);
 		};
 	}
 }

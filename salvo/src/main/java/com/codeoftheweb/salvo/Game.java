@@ -1,6 +1,6 @@
 package com.codeoftheweb.salvo;
 
-import org.hibernate.annotations.GenericGenerator;
+import  org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -44,5 +44,10 @@ public class Game {
     public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
+
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
 }
 

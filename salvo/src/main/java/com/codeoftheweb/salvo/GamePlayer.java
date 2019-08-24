@@ -2,14 +2,10 @@ package com.codeoftheweb.salvo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.FetchType;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Entity
 public class GamePlayer {
@@ -37,8 +33,16 @@ public class GamePlayer {
         this.player = player;
     }
 
+    public long getId(){
+        return id;
+    }
+
     public Date getJoinDate() {
         return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate){
+        this.joinDate = joinDate;
     }
 
     @JsonIgnore
@@ -59,9 +63,10 @@ public class GamePlayer {
         this.player = player;
     }
 
-
-
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
+    public Map<String, Object> makeGamePlayerDTO () {
+        Map <String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id",this.getId());
+        dto.put("player", this.getPlayer().makePlayerDTO());
+        return dto;
     }
 }

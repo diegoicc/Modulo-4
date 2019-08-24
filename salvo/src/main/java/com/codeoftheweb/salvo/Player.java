@@ -1,9 +1,11 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.Set;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 @Entity
 public class Player {
@@ -37,7 +39,19 @@ public class Player {
         this.userName = userName;
     }
 
-    public void setPlayers(Set<GamePlayer> gamePlayers) {
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void setGamePlayers(Set<GamePlayer> gamePlayers) {
         this.gamePlayers = gamePlayers;
+    }
+
+
+    public Map<String, Object> makePlayerDTO () {
+        Map <String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id",this.getId());
+        dto.put("email",this.getUserName());
+        return dto;
     }
 }
