@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import java.util.Date;
+import java.util.*;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -16,7 +16,8 @@ public class SalvoApplication {
 	@Bean
 	public CommandLineRunner initData(PlayerRepository playerRepository,
 									  GameRepository gameRepository,
-									  GameplayerRepository gameplayerRepository){
+									  GameplayerRepository gameplayerRepository,
+									  ShipRepository shipRepository){
 			return (args) -> {
 				Player P1 = new Player("j.bauer@ctu.gov");
 				Player P2 = new Player("c.obrian@ctu.gov");
@@ -56,6 +57,45 @@ public class SalvoApplication {
 				gameplayerRepository.save(GP4);
 				gameplayerRepository.save(GP5);
 				gameplayerRepository.save(GP6);
+
+
+				//Location Creation.
+				Set<String> shipLocationgp1 = new HashSet<>();
+				Set<String> shipLocationgp2 =  new HashSet<>();
+				Set<String> shipLocationgp3 = new HashSet<>();
+				Set<String> shipLocationgp4 =  new HashSet<>();
+				Set<String> shipLocationgp5 =  new HashSet<>();
+				shipLocationgp1.add ("H2");
+				shipLocationgp1.add ("H3");
+				shipLocationgp1.add ("H4");
+				shipLocationgp2.add ("E1");
+				shipLocationgp2.add ("F1");
+				shipLocationgp2.add ("G1");
+				shipLocationgp3.add ("B4");
+				shipLocationgp3.add ("B5");
+				shipLocationgp4.add ("B5");
+				shipLocationgp4.add ("C5");
+				shipLocationgp4.add ("D5");
+				shipLocationgp5.add ("F1");
+				shipLocationgp5.add ("F2");
+				shipLocationgp5.add ("F3");
+// ShipTypes.
+				String shipTypeYate = "Yate";
+				String shipTypeVelero = "Velero";
+				String shipTypeSubmarino = "Submarino";
+				String shipTypeCanoa = "Canoa";
+				Ship gp1Uno  = new Ship(GP1,shipTypeCanoa,shipLocationgp1);
+				Ship gp1Dos  = new Ship(GP1,shipTypeVelero, shipLocationgp2);
+				Ship gp1Tres  = new Ship(GP1,shipTypeSubmarino, shipLocationgp3);
+				Ship gp2Uno  = new Ship(GP2,shipTypeYate, shipLocationgp4);
+				Ship gp2Dos  = new Ship(GP2,shipTypeSubmarino, shipLocationgp5);
+				Ship gp2Tres  = new Ship(GP2,shipTypeVelero, shipLocationgp1);
+				shipRepository.save(gp1Uno);
+				shipRepository.save(gp1Dos);
+				shipRepository.save(gp1Tres);
+				shipRepository.save(gp2Uno);
+				shipRepository.save(gp2Dos);
+				shipRepository.save(gp2Tres);
 		};
 	}
 }

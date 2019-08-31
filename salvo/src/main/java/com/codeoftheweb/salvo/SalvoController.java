@@ -1,15 +1,15 @@
 package com.codeoftheweb.salvo;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -18,13 +18,39 @@ public class SalvoController {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private GameplayerRepository gameplayerRepository;
+
     @RequestMapping("/games")
     public List<Map<String, Object>> getGames() {
         return gameRepository.findAll()
-                             .stream()
-                             .map(Game -> makeGameDTO(Game))
-                             .collect(Collectors.toList());
+                .stream()
+                .map(Game -> makeGameDTO(Game))
+                .collect(Collectors.toList());
     }
+
+    @RequestMapping("/game_view/{nn}")
+    public Map<String, Object> getGameViewByGamePlayerID(@PathVariable Long nn) {
+        GamePlayer gameplayer = gameplayerRepository.findById(nn).get();
+
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", gameplayer.getGame().getId());
+        dto.put("created", gameplayer.getGame().getGameDate());
+        dto.put("gameplayers", gameplayer.getGame().getGamePlayers().
+                stream().
+                map(gamePlayer1 -> gameplayer.makeGamePlayerDTO()).
+                collect(Collectors.toList());
+
+
+        dto.put("ships", gameplayer.getship().
+                stream().
+                map(ship -> ship.makeShipDTO()).
+                collect(Collectors.toList());
+
+        return dto;
+
+    }
+
 
     public Map<String, Object> makeGameDTO(Game game) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
@@ -41,9 +67,9 @@ public class SalvoController {
                 .collect(Collectors.toList());
     }
 
-    public Map<String, Object> makeGamePlayerDTO (GamePlayer gamePlayer) {
-        Map <String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id",gamePlayer.getId());
+    public Map<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", gamePlayer.getId());
         dto.put("player", gamePlayer.getPlayer().makePlayerDTO());
         return dto;
     }

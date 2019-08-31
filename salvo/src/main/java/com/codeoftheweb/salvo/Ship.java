@@ -17,11 +17,48 @@ public class Ship {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="gamePlayer_ID")
-    private Game gamePlayer;
+    private GamePlayer gamePlayer;
 
-    
+    private String shiptype;
+
+    @ElementCollection
+    @Column (name = "location")
+    private Set<String> shipLocation;
+
+    //Constructor
 
     public Ship() {
+    }
+
+
+
+    public long getId() {
+        return id;
+    }
+
+
+    public GamePlayer getGamePlayer() {
+        return gamePlayer;
+    }
+
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
+
+    public String getShiptype() {
+        return shiptype;
+    }
+
+    public void setShiptype(String shiptype) {
+        this.shiptype = shiptype;
+    }
+
+    public Set<String> getShipLocation() {
+        return shipLocation;
+    }
+
+    public void setShipLocation(Set<String> shipLocation) {
+        this.shipLocation = shipLocation;
     }
 
 
