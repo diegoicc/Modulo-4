@@ -3,9 +3,7 @@ package com.codeoftheweb.salvo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class GamePlayer {
@@ -24,6 +22,13 @@ public class GamePlayer {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="player_id")
     private Player player;
+
+    @OneToMany (mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<Ship>ship;
+
+    public void setShip(Set<Ship> ship) {
+        this.ship = ship;
+    }
 
     public GamePlayer() { }
 
@@ -69,4 +74,10 @@ public class GamePlayer {
         dto.put("player", this.getPlayer().makePlayerDTO());
         return dto;
     }
+
+    public Set<Ship> getship() {
+    return ship;
+    }
+
+
 }

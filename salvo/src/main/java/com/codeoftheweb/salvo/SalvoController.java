@@ -36,16 +36,15 @@ public class SalvoController {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", gameplayer.getGame().getId());
         dto.put("created", gameplayer.getGame().getGameDate());
-        dto.put("gameplayers", gameplayer.getGame().getGamePlayers().
+        dto.put("gamePlayers", gameplayer.getGame().getGamePlayers().
                 stream().
                 map(gamePlayer1 -> gameplayer.makeGamePlayerDTO()).
-                collect(Collectors.toList());
-
+                collect(Collectors.toList()));
 
         dto.put("ships", gameplayer.getship().
                 stream().
                 map(ship -> ship.makeShipDTO()).
-                collect(Collectors.toList());
+                collect(Collectors.toList()));
 
         return dto;
 

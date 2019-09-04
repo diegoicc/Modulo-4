@@ -3,7 +3,11 @@ package com.codeoftheweb.salvo;
 import  org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -27,10 +31,15 @@ public class Ship {
 
     //Constructor
 
-    public Ship() {
+    public Ship(){
+
     }
 
-
+    public Ship(GamePlayer gamePlayer, String shiptype, Set<String> shipLocation) {
+        this.gamePlayer = gamePlayer;
+        this.shiptype = shiptype;
+        this.shipLocation = shipLocation;
+    }
 
     public long getId() {
         return id;
@@ -62,4 +71,10 @@ public class Ship {
     }
 
 
+    public Object makeShipDTO() {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("type", this.getShiptype());
+        dto.put("location", this.getShipLocation());
+        return dto;
+    }
 }
