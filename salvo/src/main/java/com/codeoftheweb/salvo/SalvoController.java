@@ -46,6 +46,13 @@ public class SalvoController {
                 map(ship -> ship.makeShipDTO()).
                 collect(Collectors.toList()));
 
+        dto.put ("salvoEs", gameplayer.getGame().getGamePlayers()
+                .stream()
+                .flatMap(gamePlayer1 -> gameplayer.getSalvoEs()
+                        .stream()
+                        .map(salvo -> salvo.makeSalvoDTO()))
+                .collect(Collectors.toList()));
+
         return dto;
 
     }
