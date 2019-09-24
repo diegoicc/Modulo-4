@@ -18,7 +18,8 @@ public class SalvoApplication {
 									  GameRepository gameRepository,
 									  GameplayerRepository gameplayerRepository,
 									  ShipRepository shipRepository,
-									  SalvoRepository salvoRepository){
+									  SalvoRepository salvoRepository,
+										ScoreRepository scoreRepository){
 			return (args) -> {
 				Player P1 = new Player("j.bauer@ctu.gov");
 				Player P2 = new Player("c.obrian@ctu.gov");
@@ -85,12 +86,14 @@ public class SalvoApplication {
 				String shipTypeVelero = "Velero";
 				String shipTypeSubmarino = "Submarino";
 				String shipTypeCanoa = "Canoa";
+
 				Ship gp1Uno  = new Ship(GP1,shipTypeCanoa,shipLocationgp1);
 				Ship gp1Dos  = new Ship(GP1,shipTypeVelero, shipLocationgp2);
 				Ship gp1Tres  = new Ship(GP1,shipTypeSubmarino, shipLocationgp3);
 				Ship gp2Uno  = new Ship(GP2,shipTypeYate, shipLocationgp4);
 				Ship gp2Dos  = new Ship(GP2,shipTypeSubmarino, shipLocationgp5);
 				Ship gp2Tres  = new Ship(GP2,shipTypeVelero, shipLocationgp1);
+
 				shipRepository.save(gp1Uno);
 				shipRepository.save(gp1Dos);
 				shipRepository.save(gp1Tres);
@@ -114,6 +117,13 @@ public class SalvoApplication {
 				Salvo salvo5 = new Salvo(5,GP5,salvoLoc5);
 
 				salvoRepository.saveAll(Arrays.asList(salvo1,salvo2,salvo3,salvo4,salvo5));
+
+				Score score1 = new Score((float) 0.5,date,P1,G1);
+				Score score2 = new Score((float) 1,date,P2,G1);
+				Score score3 = new Score((float) 0.5,date,P3,G2);
+				Score score4 = new Score((float) 0,date,P4,G2);
+
+				scoreRepository.saveAll(Arrays.asList(score1,score2,score3,score4));
 			};
 	}
 }

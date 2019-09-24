@@ -20,6 +20,15 @@ public class Player {
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
 
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    private Set<Score> scores;
+
+    public float Wins;
+    public float Losses;
+    public float Drows;
+    public float totalScore;
+
+
     public Player() {
     }
 
@@ -47,11 +56,56 @@ public class Player {
         this.gamePlayers = gamePlayers;
     }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public float getWins(Set<Score> puntajes) {
+        return puntajes.stream().filter(puntaje -> puntaje.getScore() ==1).count();
+    }
+
+    public float getLosses(Set<Score> puntajes) {
+        return puntajes.stream().filter(puntaje -> puntaje.getScore() ==0).count();
+    }
+
+    public float getDrows(Set<Score> puntajes) {
+        return puntajes.stream().filter(puntaje -> puntaje.getScore() ==0.5).count();
+    }
+
+
+    public float getTotalScore() {
+        float ganadas = getWins(this.getScores())*1;
+        float empates = getDrows(this.getScores())*(float) 0.5;
+        float perdidas = getLosses(this.getScores())*0;
+
+        return ganadas + empates + perdidas;
+    }
 
     public Map<String, Object> makePlayerDTO () {
         Map <String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id",this.getId());
         dto.put("email",this.getUserName());
+        return dto;
+    }
+
+    public Map<String, Object> makeLeaderBoardDTO(){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id",this.getId());
+        dto.put("userName", this.getUserName());
+        dto.put("score", getScoreList());
+        return dto;
+    }
+
+    private Map<String, Object> getScoreList (){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("juegosGanados",this.getWins(this.getScores()));
+        dto.put("juegosPerdidos",this.getLosses(this.getScores()));
+        dto.put("juegosEmpatados",this.getDrows(this.getScores()));
+        dto.put("puntajeTotal", getTotalScore());
         return dto;
     }
 }
